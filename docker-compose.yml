@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: simple-order-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: simple_order
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7-alpine
+    container_name: simple-order-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  rocketmq-namesrv:
+    image: apache/rocketmq:5.1.4
+    container_name: rmq-namesrv
+    restart: always
+    ports:
+      - "9876:9876"
+    command: sh mqnamesrv
+    environment:
+      JAVA_OPT_EXT: "-Xms512m -Xmx512m"
+
+  rocketmq-broker:
+    image: apache/rocketmq:5.1.4
+    container_name: rmq-broker
+    restart: always
+    ports:
+      - "10911:10911"
+      - "10909:10909"
+    environment:
+      NAMESRV_ADDR: "rocketmq-namesrv:9876"
+      JAVA_OPT_EXT: "-Xms512m -Xmx512m -Drocketmq.broker.diskMaxUsedSpaceRatio=95"
+    command: sh mqbroker -n rocketmq-namesrv:9876 -c /home/rocketmq/conf/broker.conf
+    volumes:
+      - ./broker.conf:/home/rocketmq/conf/broker.conf
+    depends_on:
+      - rocketmq-namesrv
+
+volumes:
+  mysql-data:
