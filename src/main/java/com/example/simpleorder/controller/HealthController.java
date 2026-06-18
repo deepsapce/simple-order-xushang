@@ -46,7 +46,7 @@ public class HealthController {
             result.put("redis", "FAIL: " + e.getMessage());
         }
 
-        // 3. RocketMQ 测试（原生 API，用完即关，不依赖自动配置）
+        // 3. RocketMQ 测试
         DefaultMQProducer producer = null;
         try {
             producer = new DefaultMQProducer("health-producer-group");
