@@ -15,10 +15,6 @@ public class Product {
     private String name;
     private Integer stock;
     private BigDecimal price;
-
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
-    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

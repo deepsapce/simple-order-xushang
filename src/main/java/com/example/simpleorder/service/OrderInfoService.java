@@ -9,6 +9,7 @@ import com.example.simpleorder.entity.OrderInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,8 @@ public class OrderInfoService {
         orderInfo.setQuantity(quantity);
         orderInfo.setTotal_price(product.getPrice().multiply(new BigDecimal(quantity)));
         orderInfo.setStatus("CREATED");
+        orderInfo.setCreateTime(LocalDateTime.now());
+        orderInfo.setUpdateTime(LocalDateTime.now());
         orderInfoMapper.insert(orderInfo);
         return orderInfo;
     }
