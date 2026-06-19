@@ -12,6 +12,7 @@ public class OrderInfo {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long productId;
+    private Integer quantity;
     private BigDecimal total_price;
     private String status;  //这里可能需要一个枚举类，取决于后续的设计
 
