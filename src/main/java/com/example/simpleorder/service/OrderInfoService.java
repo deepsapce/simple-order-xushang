@@ -1,5 +1,6 @@
 package com.example.simpleorder.service;
 
+import com.example.simpleorder.aop.LogRecord;
 import com.example.simpleorder.entity.Product;
 import com.example.simpleorder.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class OrderInfoService {
 
     // 异常回滚，超时回滚，时间随便定的
     @Transactional(rollbackFor = Exception.class, timeout = 20)
+    @LogRecord
     public OrderInfo createOrderInfo(Long productId, int quantity) {
         // 悲观锁查询，在mapper中实现sql行锁
         Product product = productMapper.selectByIdForUpdate(productId);
