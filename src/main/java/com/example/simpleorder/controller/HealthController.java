@@ -49,7 +49,7 @@ public class HealthController {
         // 3. RocketMQ 测试
         DefaultMQProducer producer = null;
         try {
-            producer = new DefaultMQProducer("health-producer-group");
+            producer = new DefaultMQProducer("producer");
             producer.setNamesrvAddr(nameServer);
             producer.start();
 

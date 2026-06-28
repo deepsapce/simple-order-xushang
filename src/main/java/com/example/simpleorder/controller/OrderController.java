@@ -16,7 +16,6 @@ public class OrderController {
     private final OrderInfoService orderInfoService;
 
     @PostMapping("/1")
-    // 在这个里面可能没必要用dto，但是可能会用apifox测试
     public OrderInfo createOrder(@RequestBody OrderDto orderDto) {
         return orderInfoService.createOrderInfo(orderDto.getProductId(), orderDto.getQuantity());
     }
