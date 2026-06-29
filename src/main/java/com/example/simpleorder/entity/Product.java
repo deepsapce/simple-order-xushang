@@ -2,7 +2,6 @@ package com.example.simpleorder.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
-import org.springframework.data.auditing.CurrentDateTimeProvider;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

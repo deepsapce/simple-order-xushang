@@ -3,7 +3,9 @@ package com.example.simpleorder.service;
 import com.example.simpleorder.aop.LogRecord;
 import com.example.simpleorder.entity.Product;
 import com.example.simpleorder.mapper.ProductMapper;
+import com.example.simpleorder.rocketMQ.RocketMQProducer;
 import lombok.RequiredArgsConstructor;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,6 +24,7 @@ public class OrderInfoService {
     private final OrderInfoMapper orderInfoMapper;
     private final ProductMapper productMapper;
     private final RedissonClient redissonClient;
+    private final RocketMQProducer rocketMQProducer;
 
     public OrderInfo getOrderInfoById(Long id) {
         return orderInfoMapper.selectById(id);
@@ -59,6 +62,9 @@ public class OrderInfoService {
 
                 // 删除缓存
                 evictProductById(productId);
+
+                // 将订单信息发送rocketMQ
+                rocketMQProducer.SendOrderInfoMassage(orderInfo);
                 return orderInfo;
             }
             else {
