@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RocketMQProducer {
     private DefaultMQProducer producer;
-    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);;
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
     @PostConstruct
     public void init() throws Exception {
@@ -33,7 +33,7 @@ public class RocketMQProducer {
     public void SendOrderInfoMassage(OrderInfo orderInfo) {
         try{
             byte[] order = objectMapper.writeValueAsBytes(orderInfo);
-            Message message = new Message("orderInfo", "order-tag",order);
+            Message message = new Message("orderInfo",order);
             producer.send(message);
             log.info("订单消息发送成功，订单ID={}", orderInfo.getId());
         }catch (Exception e){
